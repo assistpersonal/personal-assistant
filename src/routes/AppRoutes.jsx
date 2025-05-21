@@ -17,6 +17,7 @@ import PostForm from '../pages/admin/templates/create';
 import AddUser from '../pages/admin/Adduser';
 import { AuthContext } from '../context/Authcontext';
 import MainUser from '../pages/app';
+import AdminLogin from '../pages/admin/adminLogin/index.jsx';
 
 const AppRoutes = () => {
   const navigate = useNavigate()
@@ -48,6 +49,7 @@ const AppRoutes = () => {
       {/* Admin Routes with AdminLayout */}
       <Route element={<AdminLayout />}>
           <Route index element={<DashBoard />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<DashBoard />} />
           <Route path="/admin/dashboard/add-user" element={<AddUser />} />
           <Route path="/admin/templates" element={<Templates />} />
