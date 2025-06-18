@@ -53,10 +53,12 @@ const LoginWrapper = () => {
             }
             const resp = await requestAuthService(payload)
             if(resp?.data) {
-                toast.error(resp?.data?.message)
+                toast.error(resp?.data?.message);
+                setIsRegister(prev => !prev);
                 return
             }
-            toast.success('Verification link sent to your whatsapp number')
+            toast.success('Verification link sent to your whatsapp number');
+            setIsRegister(prev => !prev);
             console.log(resp?.data)
         } catch(e) {
             console.debug('error exception', e)

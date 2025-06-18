@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { API_URL } from '../../../config';
@@ -17,6 +17,14 @@ const AdminLogin = () => {
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+      const isLoggedIn = localStorage.getItem('isAdmin')
+      
+      if(isLoggedIn === 'true') {
+          navigate('/admin/dashboard')
+      }
+  }, [])
 
   // Handle input changes
   const handleChange = (e) => {

@@ -23,7 +23,6 @@ const TemplateWrapper = () => {
           setTemplates(res.data)
           setFiltered(res.data)
           setSearchedLists(res.data)
-          console.log(res.data)
         } catch (error) {
             console.log(error)
         }
@@ -53,11 +52,12 @@ const TemplateWrapper = () => {
 
     const handleChange = (event) => {
         setSelectedType(event.target.value);
-        const filterTemplate = templates.filter((template) => template.type === event.target.value)
-        console.log('filterTemplate', filterTemplate)
+        const filterTemplate = templates.filter((template) => template.type === event.target.value);
         if(filterTemplate.length !== 0) {
-            setFiltered(filterTemplate)
+            setFiltered(filterTemplate);
+            setSearchedLists(filterTemplate);
         } else if(event.target.value == 'all'){
+            setSearchedLists(templates);
             setFiltered(templates)
         } else {
             setFiltered([])

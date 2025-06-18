@@ -12,7 +12,7 @@ const AdminLayout = ({ children }) => {
         const isLoggedIn = localStorage.getItem('isAdmin')
         if(isLoggedIn === 'true') {
           setisLoggedIn(true)
-          navigate('/admin/dashboard')
+          // navigate('/admin/dashboard')
         } else {
           navigate('/admin/login')
         }
