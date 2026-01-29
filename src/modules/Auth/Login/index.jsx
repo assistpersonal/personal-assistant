@@ -10,8 +10,11 @@ const LoginWrapper = () => {
     const navigate = useNavigate()
     const [isRegister, setIsRegister] = useState(false)
     const [error, setError] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const login = async (user) => {
+        setIsLoading(true)
+        setError('')
         try {
             const payload = {
                 url: '/user/login',
@@ -26,18 +29,23 @@ const LoginWrapper = () => {
                 setError(resp?.data?.message)
                 return
             }
+            localStorage.setItem("authToken", resp.data.token);
+            toast.success('Login successful!')
             setTimeout(() => {
                 navigate('/app')
-                window.location.reload()
-            }, 500)
-            localStorage.setItem("authToken", resp.data.token);
+            }, 1000)
             console.log(resp?.data)
         } catch(e) {
             console.debug('error exception', e)
+            setError('Login failed. Please try again.')
+        } finally {
+            setIsLoading(false)
         }
     }
 
     const register = async (user) => {
+        setIsLoading(true)
+        setError('')
         try {
             const payload = {
                 url: '/user/register',
@@ -52,16 +60,19 @@ const LoginWrapper = () => {
                 }
             }
             const resp = await requestAuthService(payload)
-            if(resp?.data) {
-                toast.error(resp?.data?.message);
-                setIsRegister(prev => !prev);
+            if(resp?.data?.status === 'failed') {
+                setError(resp?.data?.message)
                 return
             }
-            toast.success('Verification link sent to your whatsapp number');
-            setIsRegister(prev => !prev);
+            toast.success('Registration successful! Verification link sent to your WhatsApp number.')
+            // Switch to login form after successful registration
+            setIsRegister(false)
             console.log(resp?.data)
         } catch(e) {
             console.debug('error exception', e)
+            setError('Registration failed. Please try again.')
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -114,10 +125,12 @@ const LoginWrapper = () => {
                                                       <input className='flex' type="text" id="mobilenumber" minLength={10} maxLength={12} name="mobilenumber" placeholder="Whatsapp Number" required />
                                                   </div>
                                               </div>}
-                                              {error ? <div className='col-lg-12 col-md-12 col-sm-12 column text-red-500'>{error}</div>: null}
+                                              {error ? <div className='col-lg-12 col-md-12 col-sm-12 column text-red-500 text-center py-2'>{error}</div>: null}
                                               <div className="col-lg-12 col-md-12 col-sm-12 column">
                                                   <div className="form-group message-btn">
-                                                      <button type="submit" className="theme-btn btn-one"><span>Submit Here</span></button>
+                                                      <button type="submit" className="theme-btn btn-one" disabled={isLoading}>
+                                                          <span>{isLoading ? 'Processing...' : 'Submit Here'}</span>
+                                                      </button>
                                                   </div>
                                               </div>
                                           </div>

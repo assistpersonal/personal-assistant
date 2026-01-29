@@ -64,7 +64,7 @@ const MessagePopup = ({ onClose }) => {
     const sendWishes = async() => {
         const payload = {
             name: popup?.state?.user?.name,
-            whatsapp_number: '8220845918',
+            whatsapp_number: '7871235366',
             message: message,
             senderDetails: getCurruser
         }
